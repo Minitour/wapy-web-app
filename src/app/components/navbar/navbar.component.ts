@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +13,19 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
-  constructor(location: Location,  private element: ElementRef, private router: Router) {
+
+  username: string
+
+  constructor(location: Location,
+      private element: ElementRef,
+      private router: Router,
+      private firebase: AngularFireAuth) {
     this.location = location;
+    firebase.authState.subscribe(user => {
+      if (user) {
+        this.username = user.email;
+      } 
+    })
   }
 
   ngOnInit() {
@@ -30,6 +42,11 @@ export class NavbarComponent implements OnInit {
         }
     }
     return 'Dashboard';
+  }
+
+  async didClickLogout() {
+    await this.firebase.auth.signOut();
+    this.router.navigate['/login'];
   }
 
 }
