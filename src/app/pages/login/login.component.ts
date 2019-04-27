@@ -41,8 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
     .catch(reason=> {
       this.hasError = true;
-      this.errorMessage = reason;
-      console.log(reason.message);
+      this.errorMessage = reason.message;
     })
   }
 
