@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
+  hasError: boolean = false;
+  errorMessage: string;
 
   constructor(
     private firebase: AngularFireAuth,
@@ -33,13 +35,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.firebase.auth.signInWithEmailAndPassword(userEmail,password)
     .then(userCred => {
-      console.log("logged in")
+      this.hasError = false;
       // redirect to dashboard
       this.router.navigate(['']);
     })
     .catch(reason=> {
-      console.log("someting went wrong");
-      console.log(reason);
+      this.hasError = true;
+      this.errorMessage = reason;
+      console.log(reason.message);
     })
   }
 

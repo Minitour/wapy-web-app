@@ -13,7 +13,8 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
-
+  
+  profilePicture: string = "assets/img/brand/no-photo.png";
   username: string
 
   constructor(location: Location,
@@ -23,7 +24,15 @@ export class NavbarComponent implements OnInit {
     this.location = location;
     firebase.authState.subscribe(user => {
       if (user) {
-        this.username = user.email;
+        if (user.displayName) {
+          this.username = user.displayName;
+        } else {
+          this.username = user.email;
+        }
+
+        if (user.photoURL) {
+          this.profilePicture = user.photoURL;
+        }
       } 
     })
   }
