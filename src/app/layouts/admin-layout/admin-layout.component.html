@@ -1,7 +1,7 @@
 
 <!-- Sidenav -->
 <app-sidebar *ngIf="isLoggedIn"></app-sidebar>
-<div class="main-content">
+<div *ngIf="isLoggedIn" class="main-content">
   <!-- Top navbar -->
   <app-navbar></app-navbar>
   <!-- Pages -->
