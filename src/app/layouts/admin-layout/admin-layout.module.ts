@@ -13,7 +13,9 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { ComponentsModule } from 'src/app/components/components.module';
 // import { ToastrModule } from 'ngx-toastr';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ComponentsModule,
+    ChartsModule
   ],
   declarations: [
     DashboardComponent,

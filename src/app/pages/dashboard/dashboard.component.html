@@ -3,7 +3,7 @@
     <div class="header-body">
       <!-- Card stats -->
       <div class="row">
-        <div class="col-xl-3 col-lg-6">
+        <!-- <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
@@ -86,6 +86,14 @@
               </p>
             </div>
           </div>
+        </div> -->
+        <div class="col-xl-3 col-lg-6">
+            <app-card-view 
+              title="Traffic"
+              value="304"
+              
+            >
+            </app-card-view>
         </div>
       </div>
     </div>
@@ -129,7 +137,7 @@
       </div>
     </div>
     <div class="col-xl-4">
-      <div class="card shadow">
+      <!-- <div class="card shadow">
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
@@ -139,12 +147,13 @@
           </div>
         </div>
         <div class="card-body">
-          <!-- Chart -->
+
           <div class="chart">
             <canvas id="chart-orders" class="chart-canvas"></canvas>
           </div>
         </div>
-      </div>
+      </div> -->
+      <app-bar-chart></app-bar-chart>
     </div>
   </div>
   <div class="row mt-5">
