@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardViewComponent } from './card-view/card-view.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
+import { ItemViewComponent } from './item-view/item-view.component';
 
 @NgModule({
   imports: [
@@ -21,14 +22,16 @@ import { ChartsModule } from 'ng2-charts';
     NavbarComponent,
     SidebarComponent,
     CardViewComponent,
-    BarChartComponent
+    BarChartComponent,
+    ItemViewComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     CardViewComponent,
-    BarChartComponent
+    BarChartComponent,
+    ItemViewComponent
   ]
 })
 export class ComponentsModule { }
