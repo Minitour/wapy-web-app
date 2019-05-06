@@ -106,6 +106,12 @@
             <app-item-view class="col-6 col-lg-6 app-item-view" *ngFor="let store of stores" [image]="store.image"
               [body]="null" [title]="store.name" buttonTitle="View Store" [target]="['/store', store.id]">
             </app-item-view>
+            <p *ngIf="stores.length == 0 && !isLoading" >
+              No stores.
+            </p>
+            <p *ngIf="isLoading">
+              Loading...
+            </p>
           </div>
         </div>
         
@@ -114,4 +120,3 @@
   </div>
   
 </div>
-<ngx-spinner ></ngx-spinner>

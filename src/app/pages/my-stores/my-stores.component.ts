@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class MyStoresComponent implements OnInit {
 
   private stores: Array<Store> = new Array<Store>();
+  private isLoading: boolean = true
 
   constructor(private db: AngularFirestore,
     private auth: AngularFireAuth) { }
@@ -23,8 +24,8 @@ export class MyStoresComponent implements OnInit {
       .collection('stores')
       .ref
       .where('owner_uid', '==', this.auth.auth.currentUser.uid)
-      .get()
-      
+      .get();
+    this.isLoading = false;
     //this.spinner.hide()
     for (let doc of results.docs) {
       const data = doc.data();
