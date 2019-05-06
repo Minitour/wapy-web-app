@@ -20,6 +20,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -41,7 +42,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

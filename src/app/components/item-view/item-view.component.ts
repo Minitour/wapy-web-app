@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-view',
@@ -10,12 +11,15 @@ export class ItemViewComponent implements OnInit {
     @Input() image: string = null
     @Input() title: string = "Title"
     @Input() body: string = "Body"
-    @Input() target: string = "/"
+    @Input() target: Array<string> = ['/']
     @Input() buttonTitle: string = "View Item"
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit() {
     }
 
+    async didSelectButton() {
+      await this.router.navigate(this.target);
+    }
 }

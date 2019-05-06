@@ -1,8 +1,8 @@
-<div class="card" style="width: 18rem;">
+<div class="card">
         <img *ngIf="image" class="card-img-top" src="{{image}}" alt="Card image cap">
         <div class="card-body">
-          <h5 *ngIf="title" class="card-title">{{title}}</h5>
+          <h2 *ngIf="title" class="card-title">{{title}}</h2>
           <p *ngIf="body" class="card-text">{{body}}</p>
-          <a href="{{target}}" class="btn btn-primary">{{buttonTitle}}</a>
+          <button (click)="didSelectButton()" class="btn btn-primary">{{buttonTitle}}</button>
         </div>
 </div>

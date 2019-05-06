@@ -16,6 +16,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
 import { ComponentsModule } from 'src/app/components/components.module';
 // import { ToastrModule } from 'ngx-toastr';
 import { ChartsModule } from 'ng2-charts';
+import { MyStoresComponent } from 'src/app/pages/my-stores/my-stores.component';
+import { StoreDetailsComponent } from 'src/app/pages/store-details/store-details.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -27,14 +30,17 @@ import { ChartsModule } from 'ng2-charts';
     ClipboardModule,
     AngularFireAuthModule,
     ComponentsModule,
-    ChartsModule
+    ChartsModule,
+    NgxSpinnerModule
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     TablesComponent,
     IconsComponent,
-    MapsComponent
+    MapsComponent,
+    MyStoresComponent,
+    StoreDetailsComponent
   ]
 })
 
