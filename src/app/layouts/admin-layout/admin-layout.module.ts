@@ -18,7 +18,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { ChartsModule } from 'ng2-charts';
 import { MyStoresComponent } from 'src/app/pages/my-stores/my-stores.component';
 import { StoreDetailsComponent } from 'src/app/pages/store-details/store-details.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AngularFireAuthModule,
     ComponentsModule,
     ChartsModule,
-    NgxSpinnerModule
+    MatProgressSpinnerModule
   ],
   declarations: [
     DashboardComponent,

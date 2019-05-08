@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { StoreDetailsComponent } from '../store-details/store-details.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-my-stores',
