@@ -1,0 +1,35 @@
+<div class="header bg-gradient-success pb-8 pt-5 pt-md-8">
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0">Products</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <app-item-view class="col-4 col-lg-4 app-item-view" *ngFor="let product of products" [image]="product.image"
+              [body]="'Created at ' + formatDate(product.createdAt)" [title]="product.name" buttonTitle="View Product"
+              [target]="['/product', product.id]">
+              <!-- [target]="['/store', store.id]" -->
+            </app-item-view>
+            <p *ngIf="products.length == 0 && !isLoading">
+              No Products.
+            </p>
+            <div *ngIf="isLoading">
+              <p>Loading...</p>
+              <mat-spinner></mat-spinner>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

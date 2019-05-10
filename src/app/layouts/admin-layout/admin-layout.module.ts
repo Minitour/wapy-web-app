@@ -19,6 +19,9 @@ import { ChartsModule } from 'ng2-charts';
 import { MyStoresComponent } from 'src/app/pages/my-stores/my-stores.component';
 import { StoreDetailsComponent } from 'src/app/pages/store-details/store-details.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ProductsComponent } from 'src/app/pages/products/products.component';
+import { ProductDetailsComponent } from 'src/app/pages/product-details/product-details.component';
+
 
 @NgModule({
   imports: [
@@ -40,7 +43,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     IconsComponent,
     MapsComponent,
     MyStoresComponent,
-    StoreDetailsComponent
+    StoreDetailsComponent,
+    ProductsComponent,
+    ProductDetailsComponent
   ]
 })
 

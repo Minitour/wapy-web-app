@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 // import { type } from 'os';
-import { StoreDetailsComponent } from '../store-details/store-details.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 
