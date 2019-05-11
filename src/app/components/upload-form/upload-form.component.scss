@@ -5,5 +5,19 @@
   border: 1px;
   border-color: gray;
   margin: 5px;
-  float: left;
+}
+
+.dropzone-style {
+  border: 2px dotted gray ;
+  border-radius: 10px; 
+}
+// .ngx-file-drop__content {
+//   color: gray !important;
+// }
+
+img {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  max-height: 300px;
+  object-fit: contain;
 }

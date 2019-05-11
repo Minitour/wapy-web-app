@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
+import { FirebaseFunctions} from '@angular/fire';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-products',
@@ -16,20 +18,35 @@ export class ProductsComponent implements OnInit {
 
   constructor(private db: AngularFirestore,
     private auth: AngularFireAuth,
-    public dialog: MatDialog) { }
+    private fns: AngularFireFunctions,
+    public dialog: MatDialog) {
+  }
 
-  async ngOnInit() {
+
+  ngOnInit() {
     // make api request to firebase
+    this.loadData();
+  }
+
+  async loadData() {
+
+    // reset array
+    this.products = new Array<Product>();
+
+    // make API call
+    this.isLoading = true
+
     const results = await this.db
       .collection('products')
       .ref
       .where('owner_uid', '==', this.auth.auth.currentUser.uid)
       .get();
+
     this.isLoading = false;
-    //this.spinner.hide()
+
+    // update array
     for (let doc of results.docs) {
       const data = doc.data();
-      console.log(data.created_at)
       this.products.push({
         id: doc.id,
         name: data.name,
@@ -37,7 +54,6 @@ export class ProductsComponent implements OnInit {
         createdAt: data.created_at.toDate()
       })
     }
-
   }
 
   formatDate(date: Date) {
@@ -47,26 +63,34 @@ export class ProductsComponent implements OnInit {
       "August", "September", "October",
       "November", "December"
     ];
-  
+
     const day = date.getDate();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
-  
+
     return day + ' ' + monthNames[monthIndex] + ' ' + year;
   }
 
 
   openDialog() {
     const dialogRef = this.dialog.open(AddProductPopupComponent, {
-      width: '250px'
+      width: '300px',
+      data: {}
     });
 
-    dialogRef.afterClosed().subscribe(product => {
+    dialogRef.afterClosed().subscribe(async product => {
       console.log('The dialog was closed');
       console.log(product)
+      try {
+        const result = await this.fns.httpsCallable("createProduct")(product);
+        console.log(result);
+        this.loadData();
+      }catch(e) {
+        console.log(e);
+      }
     });
   }
-  
+
 
 }
 

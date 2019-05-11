@@ -10,13 +10,19 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { ItemViewComponent } from './item-view/item-view.component';
 import { UploadFormComponent } from './upload-form/upload-form.component';
+import { FileDropModule } from 'ngx-file-drop';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     NgbModule,
-    ChartsModule
+    ChartsModule,
+    FileDropModule,
+    MatProgressSpinnerModule,
+    MatButtonModule
   ],
   declarations: [
     FooterComponent,

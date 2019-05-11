@@ -2,10 +2,19 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 *:focus {
-    outline: none !important;
-    border: 0 !important;
+  outline: none !important;
+  border: 0 !important;
 }
 
+.loader-div {
+  width: 100%;
+  text-align: center;
+}
+
+.custom-spinner {
+  display: inline-block;
+  margin:0 auto;
+}
 // .mat-dialog-container {
 //     display: flex !important;
 //     flex-direction: column;

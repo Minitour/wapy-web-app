@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Product } from '../products.component';
+import { Upload } from 'src/app/services/upload';
 
 @Component({
   selector: 'app-add-product-popup',
@@ -18,6 +19,20 @@ export class AddProductPopupComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onCreateClick() {
+    // gather data
+    // send to completion
+  }
+
+  didComplete(upload: Upload){
+    console.log(upload.url);
+    this.data.image = upload.url;
+  }
+
+  didRemoveImage() {
+    this.data.image = null;
   }
 
 }

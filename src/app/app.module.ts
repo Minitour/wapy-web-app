@@ -18,6 +18,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AddProductPopupComponent } from './pages/products/add-product-popup/add-product-popup.component';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { AddProductPopupComponent } from './pages/products/add-product-popup/add
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireFunctionsModule,
     AngularFireAuthModule
   ],
   declarations: [

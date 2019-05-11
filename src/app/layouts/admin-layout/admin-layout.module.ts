@@ -63,7 +63,7 @@ import { MatInputModule } from '@angular/material/input';
     ProductsComponent,
     ProductDetailsComponent,
     AddProductPopupComponent,
-    FileDropDirective
+    FileDropDirective,
   ],
   entryComponents: [
     AddProductPopupComponent
