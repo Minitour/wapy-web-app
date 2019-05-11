@@ -9,6 +9,7 @@ import { CardViewComponent } from './card-view/card-view.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { ItemViewComponent } from './item-view/item-view.component';
+import { UploadFormComponent } from './upload-form/upload-form.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ItemViewComponent } from './item-view/item-view.component';
     SidebarComponent,
     CardViewComponent,
     BarChartComponent,
-    ItemViewComponent
+    ItemViewComponent,
+    UploadFormComponent
   ],
   exports: [
     FooterComponent,
@@ -31,7 +33,8 @@ import { ItemViewComponent } from './item-view/item-view.component';
     SidebarComponent,
     CardViewComponent,
     BarChartComponent,
-    ItemViewComponent
+    ItemViewComponent,
+    UploadFormComponent
   ]
 })
 export class ComponentsModule { }

@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AddProductPopupComponent } from './pages/products/add-product-popup/add-product-popup.component';
 
 @NgModule({
   imports: [

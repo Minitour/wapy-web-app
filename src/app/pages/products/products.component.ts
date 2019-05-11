@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
 
 @Component({
   selector: 'app-products',
@@ -13,7 +15,8 @@ export class ProductsComponent implements OnInit {
   private isLoading: boolean = true
 
   constructor(private db: AngularFirestore,
-    private auth: AngularFireAuth) { }
+    private auth: AngularFireAuth,
+    public dialog: MatDialog) { }
 
   async ngOnInit() {
     // make api request to firebase
@@ -51,11 +54,28 @@ export class ProductsComponent implements OnInit {
   
     return day + ' ' + monthNames[monthIndex] + ' ' + year;
   }
+
+
+  openDialog() {
+    const dialogRef = this.dialog.open(AddProductPopupComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(product => {
+      console.log('The dialog was closed');
+      console.log(product)
+    });
+  }
   
 
 }
 
-type Product = {
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
+export type Product = {
   name: string,
   id: string,
   image: string | null
