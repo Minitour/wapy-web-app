@@ -3,8 +3,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddProductPopupComponent } from './add-product-popup/add-product-popup.component';
-import { FirebaseFunctions} from '@angular/fire';
+import { FirebaseFunctions } from '@angular/fire';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { del } from 'selenium-webdriver/http';
+import { delay } from 'q';
 
 @Component({
   selector: 'app-products',
@@ -25,10 +27,10 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     // make api request to firebase
-    this.loadData();
+    this.loadData(false);
   }
 
-  async loadData() {
+  async loadData(forceReload: boolean) {
 
     // reset array
     this.products = new Array<Product>();
@@ -36,11 +38,18 @@ export class ProductsComponent implements OnInit {
     // make API call
     this.isLoading = true
 
+    if (forceReload) {
+      await delay(1000);
+    }
+
     const results = await this.db
       .collection('products')
       .ref
+      // .orderBy("created_at","desc")
       .where('owner_uid', '==', this.auth.auth.currentUser.uid)
-      .get();
+      .get({ source: forceReload ? 'server' : 'default' });
+
+    console.log(results);
 
     this.isLoading = false;
 
@@ -84,14 +93,16 @@ export class ProductsComponent implements OnInit {
       try {
         const result = await this.fns.httpsCallable("createProduct")(product);
         console.log(result);
-        this.loadData();
-      }catch(e) {
+        await this.loadData(true);
+      } catch (e) {
         console.log(e);
       }
     });
   }
 
-
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
 
 export interface DialogData {
