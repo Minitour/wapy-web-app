@@ -52,13 +52,41 @@ export class DashboardComponent implements OnInit {
 		// });
   }
 
-
-
-
-
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.update();
   }
 
+}
+
+/**
+ * @Input() title: string = 'Title'
+  @Input() value: string = 'Value'
+  @Input() icon: string = 'eye'
+  @Input() iconBgColor: string = 'danger'
+  @Input() iconColor: string = 'white'
+  @Input() diffValue: string = '3.56%'
+  @Input() isPositive: boolean = true
+  @Input() footerText: string = 'Since yesterday'
+  @Input() showFooter: boolean = true
+ */
+type StatData = {
+  title: string, // The title of the card.
+  value: string, // The display value.
+  icon: string, // The icon to show.
+  iconBgColor: string, // The backgroud color of the icon.
+  iconColor: string, // The icon color.
+  diffValue: string, // The different value (Like the previous value).
+  isPositive: boolean, // Is the current value an improvment over the previous value?
+  footerText: string, // Some footer text. (like "Since Yesterday")
+  showFooter: boolean // Show footer?
+}
+
+type GraphData = {
+  barChartLabels: Array<string>,
+  barChartType: string,
+  barChartLegend: boolean,
+  barChartData: Array<any>
+  name: string,
+  header: string
 }

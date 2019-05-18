@@ -6,13 +6,14 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardViewComponent } from './card-view/card-view.component';
-import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { ChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { ItemViewComponent } from './item-view/item-view.component';
 import { UploadFormComponent } from './upload-form/upload-form.component';
 import { FileDropModule } from 'ngx-file-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @NgModule({
   imports: [
@@ -29,18 +30,20 @@ import { MatButtonModule } from '@angular/material/button';
     NavbarComponent,
     SidebarComponent,
     CardViewComponent,
-    BarChartComponent,
+    ChartComponent,
     ItemViewComponent,
-    UploadFormComponent
+    UploadFormComponent,
+    TableViewComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     CardViewComponent,
-    BarChartComponent,
+    ChartComponent,
     ItemViewComponent,
-    UploadFormComponent
+    UploadFormComponent,
+    TableViewComponent
   ]
 })
 export class ComponentsModule { }

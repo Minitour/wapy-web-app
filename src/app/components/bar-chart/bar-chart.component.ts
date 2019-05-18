@@ -1,13 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit {
-  
+export class ChartComponent implements OnInit {
+
   @Input() header: string = 'Reactions'
   @Input() title: string = 'Overall reactions on products'
 
@@ -16,15 +15,18 @@ export class BarChartComponent implements OnInit {
     responsive: true
   };
 
-  public barChartLabels = ["Calm", "Happy", "Confused", "Disgusted", "Angry", "Sad"];
-  public barChartType = 'bar';
-  public barChartLegend = false;
-  public barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
-  ];
+  @Input() public barChartLabels = ["Calm", "Happy", "Confused", "Disgusted", "Angry", "Sad"];
+  @Input() public barChartType = 'bar';
+  @Input() public barChartLegend = false;
+  @Input() public barChartData = [{ data: [65, 59, 80, 81, 56, 55, 40] }];
+  @Input() public lineChartOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
 
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

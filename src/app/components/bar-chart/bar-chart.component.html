@@ -1,20 +1,16 @@
 <div class="card shadow">
-    <div class="card-header bg-transparent">
-      <div class="row align-items-center">
-        <div class="col">
-          <h6 class="text-uppercase text-muted ls-1 mb-1">{{header}}</h6>
-          <h2 class="mb-0">{{title}}</h2>
-        </div>
+  <div class="card-header bg-transparent">
+    <div class="row align-items-center">
+      <div class="col">
+        <h6 class="text-uppercase text-muted ls-1 mb-1">{{header}}</h6>
+        <h2 class="mb-0">{{title}}</h2>
       </div>
     </div>
-    <div class="card-body">
-        <canvas baseChart
-                  [datasets]="barChartData"
-                  [labels]="barChartLabels"
-                  [options]="barChartOptions"
-                  [plugins]="barChartPlugins"
-                  [legend]="barChartLegend"
-                  [chartType]="barChartType">
-                </canvas>
-    </div>
+  </div>
+  <div class="card-body">
+    <canvas class="chartview" baseChart [options]="lineChartOptions" [datasets]="barChartData"
+      [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+      [chartType]="barChartType">
+    </canvas>
+  </div>
 </div>

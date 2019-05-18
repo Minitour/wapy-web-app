@@ -1,0 +1,26 @@
+<div class="card shadow">
+  <div class="card-header border-0">
+    <div class="row align-items-center">
+      <div class="col">
+        <h6 class="text-uppercase text-muted ls-1 mb-1">{{header}}</h6>
+        <h2 class="mb-0">{{title}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+        <tr>
+          <th *ngFor="let header of headers" scope="col">{{header}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data">
+          <td *ngFor="let col of row">
+            {{col}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
