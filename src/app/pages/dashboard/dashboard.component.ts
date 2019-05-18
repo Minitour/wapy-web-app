@@ -7,6 +7,7 @@ import {
   chartExample1,
   chartExample2
 } from "../../variables/charts";
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,9 +22,9 @@ export class DashboardComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
-  constructor() { }
+  constructor(private fns: AngularFireFunctions) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
@@ -31,7 +32,9 @@ export class DashboardComponent implements OnInit {
     ];
     this.data = this.datasets[0];
 
-
+    const getDashboard = this.fns.httpsCallable("getDashboard");
+    const results = await getDashboard({}).toPromise();
+    console.log(results);
     // var chartOrders = document.getElementById('chart-orders');
 
     // parseOptions(Chart, chartOptions());
