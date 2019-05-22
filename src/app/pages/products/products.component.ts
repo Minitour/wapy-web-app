@@ -90,12 +90,14 @@ export class ProductsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async product => {
       console.log('The dialog was closed');
       console.log(product)
-      try {
-        const result = await this.fns.httpsCallable("createProduct")(product);
-        console.log(result);
-        await this.loadData(true);
-      } catch (e) {
-        console.log(e);
+      if (product) {
+        try {
+          const result = await this.fns.httpsCallable("createProduct")(product);
+          console.log(result);
+          await this.loadData(true);
+        } catch (e) {
+          console.log(e);
+        }
       }
     });
   }

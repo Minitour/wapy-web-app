@@ -19,6 +19,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AddProductPopupComponent } from './pages/products/add-product-popup/add-product-popup.component';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { CameraDetailsComponent } from './pages/camera-details/camera-details.component';
 
 @NgModule({
   imports: [

@@ -33,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-details.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { MatInputModule } from '@angular/material/input';
     ProductDetailsComponent,
     AddProductPopupComponent,
     FileDropDirective,
+    CameraDetailsComponent
   ],
   entryComponents: [
     AddProductPopupComponent

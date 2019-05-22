@@ -17,7 +17,7 @@
   </div>
 
 
-  <file-drop *ngIf="showDragAndDropView" class="dropzone" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+  <file-drop *ngIf="showDragAndDropView" class="dropzone" [dropZoneLabel]="textLabel" (onFileDrop)="dropped($event)"
     (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" multiple="false" accept="png"
     dropZoneClassName="dropzone-style">
   </file-drop>

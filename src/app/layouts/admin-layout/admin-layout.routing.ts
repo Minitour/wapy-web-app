@@ -9,15 +9,17 @@ import { MyStoresComponent } from 'src/app/pages/my-stores/my-stores.component';
 import { StoreDetailsComponent } from 'src/app/pages/store-details/store-details.component';
 import { ProductsComponent } from 'src/app/pages/products/products.component';
 import { ProductDetailsComponent } from 'src/app/pages/product-details/product-details.component';
+import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-details.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'stores',         component: MyStoresComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'user-profile', component: UserProfileComponent },
+    { path: 'tables', component: TablesComponent },
+    { path: 'icons', component: IconsComponent },
+    { path: 'maps', component: MapsComponent },
+    { path: 'stores', component: MyStoresComponent },
     { path: 'store/:id', component: StoreDetailsComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'product/:id', component: ProductDetailsComponent },
+    { path: 'camera/:id', component: CameraDetailsComponent },
 ];

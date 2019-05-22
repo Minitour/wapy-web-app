@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Upload } from 'src/app/services/upload';
 import { UploadFileService } from 'src/app/services/upload-file.service';
 import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
@@ -13,12 +13,15 @@ export class UploadFormComponent {
   @Output() onUploadCompleted = new EventEmitter<Upload>();
   @Output() onFileRemoved = new EventEmitter<void>();
 
+  @Input() textLabel: string = "Upload Files"
+
   currentUpload: Upload;
   dropzoneActive: boolean = false;
   public file: UploadFile;
   private image: string;
   private isLoading: boolean = false;
   private showDragAndDropView: boolean = true;
+  
   
 
   constructor(private uploadService: UploadFileService) { }

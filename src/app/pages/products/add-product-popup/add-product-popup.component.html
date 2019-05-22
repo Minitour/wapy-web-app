@@ -3,9 +3,10 @@
   <mat-form-field>
     <input matInput [(ngModel)]="data.name" placeholder="Product Name">
   </mat-form-field>
-  <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()"></upload-form>
+  <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()" textLabel="Drag and drop an image">
+  </upload-form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
-</div>
+</mat-dialog-actions>

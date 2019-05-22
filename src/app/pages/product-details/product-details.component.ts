@@ -13,6 +13,7 @@ export class ProductDetailsComponent implements OnInit {
   private sub: any;
   private productImage: string = ''
   private productName: string = 'Loading...'
+  
   get id() {
     return this._id;
   }
@@ -29,11 +30,8 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
+      this.sub.unsubscribe();
    });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   async didSetId() {
