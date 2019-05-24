@@ -8,9 +8,9 @@
     </div>
   </div>
   <div class="card-body">
-    <canvas class="chartview" baseChart [options]="lineChartOptions" [datasets]="barChartData"
-      [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
-      [chartType]="barChartType">
+    <canvas class="chartview" baseChart [data]="data"
+      [options]="options" [plugins]="barChartPlugins" [legend]="legend"
+      [chartType]="type">
     </canvas>
   </div>
 </div>

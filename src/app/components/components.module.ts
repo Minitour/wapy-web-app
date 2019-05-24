@@ -6,7 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardViewComponent } from './card-view/card-view.component';
-import { ChartComponent } from './bar-chart/bar-chart.component';
+import { ChartComponent } from './chart/chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { ItemViewComponent } from './item-view/item-view.component';
 import { UploadFormComponent } from './upload-form/upload-form.component';

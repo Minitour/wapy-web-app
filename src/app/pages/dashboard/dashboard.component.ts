@@ -8,6 +8,9 @@ import {
   chartExample2
 } from "../../variables/charts";
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { Product } from '../products/products.component';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,63 +19,124 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 })
 export class DashboardComponent implements OnInit {
 
-  public datasets: any;
-  public data: any;
-  public salesChart;
-  public clicked: boolean = true;
-  public clicked1: boolean = false;
+  productLookupTable: Map<string, Product> = new Map();
+  private isLoading: boolean = true
+  stats: Array<StatData> = []
+  graphs: Array<GraphData> = []
+  tables: Array<TableData> = []
 
-  constructor(private fns: AngularFireFunctions) { }
+  constructor(private db: AngularFirestore,
+    private auth: AngularFireAuth,
+    private fns: AngularFireFunctions) { }
 
   async ngOnInit() {
+    // set loading true
+    this.isLoading = true;
 
-    this.datasets = [
-      [0, 20, 10, 30, 15, 40, 20, 60, 60],
-      [0, 20, 5, 25, 10, 30, 15, 40, 40]
-    ];
-    this.data = this.datasets[0];
+    // get products
+    const productsData = await this.db
+      .collection('products')
+      .ref
+      .where('owner_uid', '==', this.auth.auth.currentUser.uid)
+      .get();
 
+    // update array
+    for (let doc of productsData.docs) {
+      const data = doc.data();
+      this.productLookupTable[doc.id] = {
+        id: doc.id,
+        name: data.name,
+        image: data.image,
+        createdAt: data.created_at.toDate()
+      };
+    }
+
+    // get dashboard data
     const getDashboard = this.fns.httpsCallable("getDashboard");
-    const results = await getDashboard({}).toPromise();
+    const results = await getDashboard({
+      fromTime: '2019-05-24 01:43:39',
+      toTime: '2019-05-30 01:43:39'
+    }).toPromise();
+
     console.log(results);
-    // var chartOrders = document.getElementById('chart-orders');
 
-    // parseOptions(Chart, chartOptions());
+    const stats = results.data.dashboard.stats;
+    for (let item of stats) {
+      const productId = item.productId;
+      var alteredTitle = item.title;
+      if (productId) {
+        const product = this.productLookupTable[productId];
+        alteredTitle = alteredTitle.split(productId).join(`${product.name}`);
+      }
 
+      this.stats.push({
+        title: alteredTitle,
+        value: item.value,
+        icon: 'eye',
+        iconBgColor: 'red',
+        iconColor: 'white',
+        diffValue: item.diffValue,
+        isPositive: item.isPositive,
+        footerText: item.footerText,
+        showFooter: item.showFooter
+      });
+    }
 
-    // var ordersChart = new Chart(chartOrders, {
-    //   type: 'bar',
-    //   options: chartExample2.options,
-    //   data: chartExample2.data
-    // });
+    const graphs = results.data.dashboard.graphs;
 
-    // var chartSales = document.getElementById('chart-sales');
+    for (let item of graphs) {
+      console.log(JSON.stringify(item));
+      this.graphs.push({
+        type: item.type,
+        name: item.name,
+        header: item.header,
+        data: item.data,
+        options: item.options
+      });
 
-    // this.salesChart = new Chart(chartSales, {
-		// 	type: 'line',
-		// 	options: chartExample1.options,
-		// 	data: chartExample1.data
-		// });
-  }
+    }
 
-  public updateOptions() {
-    this.salesChart.data.datasets[0].data = this.data;
-    this.salesChart.update();
+    console.log(this.graphs)
+    const tables = results.data.dashboard.tables;
+
+    // for each table
+    for (let item of tables) {
+      let values = item.values;
+      
+      // for each row
+      for (let i = 0; i < values.length; i++) {
+        // for each column
+        for (let j = 0; j < values[i].length; j++) {
+          // get product id
+          let productId = values[i][j];
+          let product = this.productLookupTable[productId];
+
+          // if product name is not undefined
+          if (product) {
+            values[i][j] = product.name;
+          }
+        }
+      }
+      this.tables.push({
+        title: item.title,
+        header: item.header,
+        columns: item.columns,
+        values: item.values
+      })
+    }
+
+    this.isLoading = false;
   }
 
 }
 
-/**
- * @Input() title: string = 'Title'
-  @Input() value: string = 'Value'
-  @Input() icon: string = 'eye'
-  @Input() iconBgColor: string = 'danger'
-  @Input() iconColor: string = 'white'
-  @Input() diffValue: string = '3.56%'
-  @Input() isPositive: boolean = true
-  @Input() footerText: string = 'Since yesterday'
-  @Input() showFooter: boolean = true
- */
+type TableData = {
+  title: string,
+  header: string,
+  columns: Array<String>
+  values: Array<Array<String>>
+}
+
 type StatData = {
   title: string, // The title of the card.
   value: string, // The display value.
@@ -82,14 +146,13 @@ type StatData = {
   diffValue: string, // The different value (Like the previous value).
   isPositive: boolean, // Is the current value an improvment over the previous value?
   footerText: string, // Some footer text. (like "Since Yesterday")
-  showFooter: boolean // Show footer?
+  showFooter: boolean // Show footer
 }
 
 type GraphData = {
-  barChartLabels: Array<string>,
-  barChartType: string,
-  barChartLegend: boolean,
-  barChartData: Array<any>
-  name: string,
-  header: string
+  type: string, // The type of the chart
+  data: any // The data
+  options: any // The options
+  name: string, // The graph name
+  header: string // graph header
 }
