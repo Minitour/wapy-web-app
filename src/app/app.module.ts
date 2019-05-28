@@ -20,7 +20,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AddProductPopupComponent } from './pages/products/add-product-popup/add-product-popup.component';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { CameraDetailsComponent } from './pages/camera-details/camera-details.component';
-
+import { DatePipe } from '@angular/common'
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -45,7 +45,7 @@ import { CameraDetailsComponent } from './pages/camera-details/camera-details.co
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

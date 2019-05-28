@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 // core components
 import {
@@ -27,9 +28,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(private db: AngularFirestore,
     private auth: AngularFireAuth,
-    private fns: AngularFireFunctions) { }
+    private fns: AngularFireFunctions,
+    private datePipe: DatePipe) { }
 
   async ngOnInit() {
+    await this.loadDashboard(7);
+  }
+
+  async loadDashboard(numberOfDays: number) {
     // set loading true
     this.isLoading = true;
 
@@ -51,15 +57,20 @@ export class DashboardComponent implements OnInit {
       };
     }
 
+    const date = new Date();
+    const timestamp = this.datePipe.transform(date, "yyyy-MM-dd hh:mm:ss");
+
+    console.log(timestamp)
+
     // get dashboard data
     const getDashboard = this.fns.httpsCallable("getDashboard");
     const results = await getDashboard({
-      fromTime: '2019-05-24 01:43:39',
-      toTime: '2019-05-30 01:43:39'
+      numberOfDays: numberOfDays,
+      toTime: timestamp
     }).toPromise();
 
     console.log(results);
-
+    // GET STATS
     const stats = results.data.dashboard.stats;
     for (let item of stats) {
       const productId = item.productId;
@@ -82,27 +93,35 @@ export class DashboardComponent implements OnInit {
       });
     }
 
+    // LOAD GRAPHS
     const graphs = results.data.dashboard.graphs;
 
     for (let item of graphs) {
-      console.log(JSON.stringify(item));
-      this.graphs.push({
+      if (!item.options) {
+        item.options = {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+
+      const graph = {
         type: item.type,
         name: item.name,
         header: item.header,
         data: item.data,
         options: item.options
-      });
-
+      };
+      console.log(graph)
+      this.graphs.push(graph);
     }
 
-    console.log(this.graphs)
+    // LOAD TABLES
     const tables = results.data.dashboard.tables;
 
     // for each table
     for (let item of tables) {
       let values = item.values;
-      
+
       // for each row
       for (let i = 0; i < values.length; i++) {
         // for each column

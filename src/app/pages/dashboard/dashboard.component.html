@@ -18,8 +18,9 @@
     <mat-spinner class="custom-spinner" [diameter]="30"></mat-spinner>
   </div>
   <div *ngIf="!isLoading" class="row">
-    <app-chart class="col-xl-6 app-bar-chart" *ngFor="let graph of graphs" [type]="graph.type" [data]="graph.data"
-      [title]="graph.name" [header]="graph.header">
+    <app-chart class="col-xl-6 app-bar-chart" *ngFor="let graph of graphs" [type]="graph.type"
+      [datasets]="graph.data.dataset" [options]="graph.options" [labels]="graph.data.labels" [title]="graph.name"
+      [header]="graph.header">
     </app-chart>
   </div>
   <div class="row mt-5">

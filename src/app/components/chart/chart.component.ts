@@ -15,14 +15,14 @@ export class ChartComponent implements OnInit {
     responsive: true
   };
 
-  // @Input() public barChartLabels = ["Calm", "Happy", "Confused", "Disgusted", "Angry", "Sad"];
+  @Input() public labels = ["Calm", "Happy", "Confused", "Disgusted", "Angry", "Sad"];
   @Input() public type = 'bar';
-  @Input() public legend = false;
-  @Input() public data = [{ data: [65, 59, 80, 81, 56, 55, 40] }];
+  @Input() public datasets = [{ data: [65, 59, 80, 81, 56, 55, 40] }];
   @Input() public options: any = {
     responsive: true,
     maintainAspectRatio: false
   };
+  
 
 
   constructor() {
