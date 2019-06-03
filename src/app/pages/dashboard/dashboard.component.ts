@@ -153,14 +153,14 @@ export class DashboardComponent implements OnInit {
 
 }
 
-type TableData = {
+export type TableData = {
   title: string,
   header: string,
   columns: Array<String>
   values: Array<Array<String>>
 }
 
-type StatData = {
+export type StatData = {
   title: string, // The title of the card.
   value: string, // The display value.
   icon: string, // The icon to show.
@@ -172,7 +172,7 @@ type StatData = {
   showFooter: boolean // Show footer
 }
 
-type GraphData = {
+export type GraphData = {
   type: string, // The type of the chart
   data: any // The data
   options: any // The options

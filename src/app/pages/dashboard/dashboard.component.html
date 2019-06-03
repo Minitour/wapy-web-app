@@ -25,10 +25,6 @@
   </div>
   <div class="row mt-5">
     <div *ngIf="!isLoading" class="col-xl-12 mb-5 mb-xl-0">
-      <!--         title: item.title,
-        header: item.header,
-        columns: item.columns,
-        values: item.values -->
       <app-table-view *ngFor="let table of tables" [title]="table.title" [header]="table.header"
         [headers]="table.columns" [data]="table.values"></app-table-view>
     </div>

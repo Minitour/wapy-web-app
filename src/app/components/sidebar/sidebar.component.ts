@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 declare interface RouteInfo {
@@ -16,7 +17,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/stores', title: 'Stores', icon: 'fas fa-store-alt text-red', class: '' },
   { path: '/products', title: 'Products', icon: 'fas fa-tags text-blue', class: '' },
   { path: '/user-profile', title: 'Profile', icon: 'ni-single-02 text-yellow', class: '' },
-  
+
   // { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
   // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
@@ -30,8 +31,24 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
+  public username: string;
+  public profilePicture: string = "assets/img/brand/no-photo.png";
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,firebase: AngularFireAuth) {
+    firebase.authState.subscribe(user => {
+      if (user) {
+        if (user.displayName) {
+          this.username = user.displayName;
+        } else {
+          this.username = user.email;
+        }
+
+        if (user.photoURL) {
+          this.profilePicture = user.photoURL;
+        }
+      }
+    })
+  }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);

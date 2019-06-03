@@ -2,6 +2,10 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as h337 from 'heatmap.js';
+import { StatData, GraphData, TableData } from '../dashboard/dashboard.component';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { DatePipe } from '@angular/common';
+import { Product } from '../products/products.component';
 
 @Component({
   selector: 'app-camera-details',
@@ -20,6 +24,12 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
   products: Array<any> = []
   heatmap: Array<any> = []
 
+  isLoading: boolean = true
+  stats: Array<StatData> = []
+  graphs: Array<GraphData> = []
+  tables: Array<TableData> = []
+  productLookupTable: Map<string, Product> = new Map();
+
   private _id: string;
   private sub: any;
 
@@ -34,7 +44,10 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
 
   }
 
-  constructor(private db: AngularFirestore, private route: ActivatedRoute) { }
+  constructor(private db: AngularFirestore,
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
+    private fns: AngularFireFunctions) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -43,6 +56,9 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
   }
 
   async didSetId() {
+    this.isLoading = true;
+    // GET DATA FROM FIREBASE
+
     const document = await this.db.collection('cameras').doc(this._id).ref.get();
     if (!document.exists) { return }
     const data = document.data();
@@ -52,11 +68,121 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
 
     const productIds = data.mmo.objects;
     for (let prod of productIds) {
-      let data = await this.db.collection('products').doc(prod.id).ref.get();
-      this.products.push(data.data());
-      console.log(data.data());
+      let doc = await this.db.collection('products').doc(prod.id).ref.get();
+      const data = doc.data()
+      this.products.push();
+      this.productLookupTable[doc.id] = {
+        id: doc.id,
+        name: data.name,
+        image: data.image,
+        createdAt: data.created_at.toDate()
+      };
     }
-    console.log(data);
+
+    
+
+    // GET DATA FROM ANALYTICS SERVER
+
+    const date = new Date();
+    const timestamp = this.datePipe.transform(date, "yyyy-MM-dd hh:mm:ss");
+
+    console.log(timestamp)
+
+    // get dashboard data
+    const getDashboard = this.fns.httpsCallable("getBoxDashboard");
+    const results = await getDashboard({
+      numberOfDays: 7,
+      toTime: timestamp,
+      cameraId : this._id
+    }).toPromise();
+
+    console.log(results);
+
+    if (results.code != 200) {
+      this.isLoading = false;
+      return
+    }
+    // GET STATS
+    const stats = results.data.box.stats;
+    for (let item of stats) {
+      const productId = item.productId;
+      var alteredTitle = item.title;
+      if (productId) {
+        const product = this.productLookupTable[productId];
+        alteredTitle = alteredTitle.split(productId).join(`${product.name}`);
+      }
+
+      this.stats.push({
+        title: alteredTitle,
+        value: item.value,
+        icon: item.icon,
+        iconBgColor: item.iconBgColor,
+        iconColor: 'white',
+        diffValue: item.diffValue,
+        isPositive: item.isPositive,
+        footerText: item.footerText,
+        showFooter: item.showFooter
+      });
+    }
+
+    // LOAD GRAPHS
+    const graphs = results.data.box.graphs;
+
+    for (let item of graphs) {
+      if (!item.options) {
+        item.options = {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+
+      const graph = {
+        type: item.type,
+        name: item.name,
+        header: item.header,
+        data: item.data,
+        options: item.options
+      };
+      console.log(graph)
+      this.graphs.push(graph);
+    }
+
+    // LOAD TABLES
+    const tables = results.data.box.tables;
+
+    // for each table
+    for (let item of tables) {
+      let values = item.values;
+
+      // for each row
+      for (let i = 0; i < values.length; i++) {
+        // for each column
+        for (let j = 0; j < values[i].length; j++) {
+          // get product id
+          let productId = values[i][j];
+          let product = this.productLookupTable[productId];
+
+          // if product name is not undefined
+          if (product) {
+            values[i][j] = { 
+              linkable: true,
+              value: product.name,
+              url : `product/${product.id}`
+            }
+          }
+        }
+      }
+      this.tables.push({
+        title: item.title,
+        header: item.header,
+        columns: item.columns,
+        values: item.values
+      })
+    }
+
+    
+
+    this.isLoading = false;
   }
 
   didLoadImage() {
@@ -87,19 +213,6 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
         points.push(point);
       }
     }
-
-
-    // while (len--) {
-    //   var val = Math.floor(Math.random() * 100);
-    //   max = Math.max(max, val);
-
-    //   var point = {
-    //     x: Math.floor(Math.random() * width),
-    //     y: Math.floor(Math.random() * height),
-    //     value: val
-    //   };
-    //   points.push(point);
-    // }
 
 
     console.log(points);
