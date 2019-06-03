@@ -17,7 +17,13 @@
       <tbody>
         <tr *ngFor="let row of data">
           <td *ngFor="let col of row">
-            {{col}}
+            <a *ngIf="col.linkable" [href]="col.url">
+              {{col.value}}
+            </a>
+            <a *ngIf="!col.linkable">
+              {{col}}
+            </a>
+            <!-- {{col.value ? col.value() : col}} -->
           </td>
         </tr>
       </tbody>

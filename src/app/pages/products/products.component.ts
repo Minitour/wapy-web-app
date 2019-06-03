@@ -15,8 +15,8 @@ import { delay } from 'q';
 })
 export class ProductsComponent implements OnInit {
 
-  private products: Array<Product> = new Array<Product>();
-  private isLoading: boolean = true
+  products: Array<Product> = new Array<Product>();
+  isLoading: boolean = true
 
   constructor(private db: AngularFirestore,
     private auth: AngularFireAuth,

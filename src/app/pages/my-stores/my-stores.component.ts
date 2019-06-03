@@ -11,8 +11,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class MyStoresComponent implements OnInit {
 
-  private stores: Array<Store> = new Array<Store>();
-  private isLoading: boolean = true
+  stores: Array<Store> = new Array<Store>();
+  isLoading: boolean = true
 
   constructor(private db: AngularFirestore,
     private auth: AngularFireAuth) { }

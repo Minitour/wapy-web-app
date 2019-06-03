@@ -21,7 +21,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class DashboardComponent implements OnInit {
 
   productLookupTable: Map<string, Product> = new Map();
-  private isLoading: boolean = true
+  isLoading: boolean = true
   stats: Array<StatData> = []
   graphs: Array<GraphData> = []
   tables: Array<TableData> = []
@@ -83,8 +83,8 @@ export class DashboardComponent implements OnInit {
       this.stats.push({
         title: alteredTitle,
         value: item.value,
-        icon: 'eye',
-        iconBgColor: 'red',
+        icon: item.icon,
+        iconBgColor: item.iconBgColor,
         iconColor: 'white',
         diffValue: item.diffValue,
         isPositive: item.isPositive,
@@ -132,7 +132,11 @@ export class DashboardComponent implements OnInit {
 
           // if product name is not undefined
           if (product) {
-            values[i][j] = product.name;
+            values[i][j] = { 
+              linkable: true,
+              value: product.name,
+              url : `product/${product.id}`
+            }
           }
         }
       }

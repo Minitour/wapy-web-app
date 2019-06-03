@@ -11,8 +11,8 @@ export class ProductDetailsComponent implements OnInit {
 
   private _id: string;
   private sub: any;
-  private productImage: string = ''
-  private productName: string = 'Loading...'
+  productImage: string = ''
+  productName: string = 'Loading...'
   
   get id() {
     return this._id;

@@ -14,11 +14,11 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map') map: ElementRef;
 
-  private cameraName: string = ""
-  private image: string
+  cameraName: string = ""
+  image: string
 
-  private products: Array<any> = []
-  private heatmap: Array<any> = []
+  products: Array<any> = []
+  heatmap: Array<any> = []
 
   private _id: string;
   private sub: any;

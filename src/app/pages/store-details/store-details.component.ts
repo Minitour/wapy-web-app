@@ -13,11 +13,11 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
 
   private _id: string;
   private sub: any;
-  private storeImage: string = ''
-  private storeName: string = 'Loading...'
-  private isLoading: boolean = true
+  storeImage: string = ''
+  storeName: string = 'Loading...'
+  isLoading: boolean = true
 
-  private cameras: Array<Camera> = new Array<Camera>();
+  cameras: Array<Camera> = new Array<Camera>();
 
   get id() {
     return this._id;

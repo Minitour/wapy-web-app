@@ -18,9 +18,9 @@ export class UploadFormComponent {
   currentUpload: Upload;
   dropzoneActive: boolean = false;
   public file: UploadFile;
-  private image: string;
-  private isLoading: boolean = false;
-  private showDragAndDropView: boolean = true;
+  public image: string;
+  public isLoading: boolean = false;
+  public showDragAndDropView: boolean = true;
   
   
 
