@@ -13,7 +13,7 @@
         <div class="card-body">
 
           <div class="row">
-            <app-item-view class="col-4 col-lg-4 app-item-view" *ngFor="let camera of cameras" [image]="camera.image"
+            <app-item-view class="col-xl-4 app-item-view" *ngFor="let camera of cameras" [image]="camera.image"
               [body]="null" [title]="camera.name" buttonTitle="View Camera" [target]="['/camera', camera.id]">
             </app-item-view>
             <p *ngIf="cameras.length == 0 && !isLoading">

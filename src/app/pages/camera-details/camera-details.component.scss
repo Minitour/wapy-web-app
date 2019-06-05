@@ -1,4 +1,9 @@
 .heatmap {
-    width: 100%;
-    display: table;
+  width: 100%;
+  display: table;
+}
+
+.button-wrapper {
+  display: table-cell;
+  vertical-align: middle;
 }

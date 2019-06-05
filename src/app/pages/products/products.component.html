@@ -18,7 +18,7 @@
         <div class="card-body">
 
           <div class="row">
-            <app-item-view class="col-4 col-lg-4 app-item-view" *ngFor="let product of products" [image]="product.image"
+            <app-item-view class="col-xl-4 app-item-view" *ngFor="let product of products" [image]="product.image"
               [body]="'Created at ' + formatDate(product.createdAt)" [title]="product.name" buttonTitle="View Product"
               [target]="['/product', product.id]">
             </app-item-view>

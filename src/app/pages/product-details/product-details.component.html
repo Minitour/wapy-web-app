@@ -17,6 +17,10 @@
             <mat-spinner class="custom-spinner" [diameter]="30"></mat-spinner>
           </div>
 
+          <div *ngIf="!isLoading && errorMessage">
+            <p>{{errorMessage}}</p>
+          </div>
+
           <!-- stats -->
           <div *ngIf="!isLoading" class="row">
             <app-card-view class="col-xl-4 col-lg-3 app-card-view" *ngFor="let item of stats" [title]="item.title"
@@ -26,8 +30,7 @@
             </app-card-view>
           </div>
 
-          <br>
-          <br>
+          
 
           <!-- Graphs -->
           <div *ngIf="!isLoading" class="row">
@@ -36,9 +39,6 @@
               [title]="graph.name" [header]="graph.header">
             </app-chart>
           </div>
-
-          <br>
-          <br>
 
           <!-- Tables -->
           <div *ngIf="!isLoading" class="col-xl-12 mb-5 mb-xl-0">

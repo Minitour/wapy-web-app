@@ -1,8 +1,25 @@
-<div class="card">
-        <img *ngIf="image" class="card-img-top" src="{{image}}" alt="Card image cap">
-        <div class="card-body">
-          <h2 *ngIf="title" class="card-title">{{title}}</h2>
-          <p *ngIf="body" class="card-text">{{body}}</p>
-          <button (click)="didSelectButton()" class="btn btn-primary">{{buttonTitle}}</button>
-        </div>
+<!-- <div class="card">
+  <img *ngIf="image" class="card-img-top" src="{{image}}" alt="Card image cap">
+  <div class="card-body">
+    <h2 *ngIf="title" class="card-title">{{title}}</h2>
+    <p *ngIf="body" class="card-text">{{body}}</p>
+    <button (click)="didSelectButton()" class="btn btn-primary">{{buttonTitle}}</button>
+  </div>
+</div> -->
+
+<div class="card shadow">
+  <img *ngIf="image" class="card-img-top" src="{{image}}" alt="Card image cap">
+  <!-- <div class="card-header bg-transparent">
+    <div class="row align-items-center">
+      <div class="col">
+        <h6 class="text-uppercase text-muted ls-1 mb-1">{{header}}</h6>
+        <h2 class="mb-0">{{title}}</h2>
+      </div>
+    </div>
+  </div> -->
+  <div class="card-body">
+    <h2 *ngIf="title" class="card-title">{{title}}</h2>
+    <p *ngIf="body" class="card-text">{{body}}</p>
+    <button (click)="didSelectButton()" class="btn btn-primary">{{buttonTitle}}</button>
+  </div>
 </div>

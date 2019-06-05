@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as h337 from 'heatmap.js';
@@ -6,19 +6,29 @@ import { StatData, GraphData, TableData } from '../dashboard/dashboard.component
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { DatePipe } from '@angular/common';
 import { Product } from '../products/products.component';
+import { DateAdapter } from '@angular/material';
+import { defineBase } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-camera-details',
   templateUrl: './camera-details.component.html',
   styleUrls: ['./camera-details.component.scss']
 })
-export class CameraDetailsComponent implements OnInit, AfterViewInit {
+export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
+
 
 
 
   @ViewChild('map') map: ElementRef;
 
   cameraName: string = ""
+  cameraStatus: boolean = false;
+  lastPingTime: number = 0
+  isCameraOffline: boolean = false;
+  isUpdatingStatus: boolean = false;
+
+
+
   image: string
 
   products: Array<any> = []
@@ -55,6 +65,10 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   async didSetId() {
     this.isLoading = true;
     // GET DATA FROM FIREBASE
@@ -65,21 +79,35 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
     this.cameraName = data.name;
     this.image = data.image;
     this.heatmap = data.heatmap;
+    this.lastPingTime = data.last_ping;
+
+    if (data.camera_enabled) {
+      this.cameraStatus = data.camera_enabled;
+    }
 
     const productIds = data.mmo.objects;
     for (let prod of productIds) {
-      let doc = await this.db.collection('products').doc(prod.id).ref.get();
-      const data = doc.data()
-      this.products.push();
-      this.productLookupTable[doc.id] = {
-        id: doc.id,
-        name: data.name,
-        image: data.image,
-        createdAt: data.created_at.toDate()
-      };
+      try {
+        let doc = await this.db.collection('products').doc(prod.id).ref.get();
+        const data = doc.data()
+        this.products.push(data);
+        this.productLookupTable[doc.id] = {
+          id: doc.id,
+          name: data.name,
+          image: data.image,
+          createdAt: data.created_at.toDate()
+        };
+      } catch {
+        this.productLookupTable[prod.id] = {
+          id: prod.id,
+          name: "Unknown",
+          image: null,
+          createdAt: null
+        };
+      }
     }
 
-    
+
 
     // GET DATA FROM ANALYTICS SERVER
 
@@ -93,7 +121,7 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
     const results = await getDashboard({
       numberOfDays: 7,
       toTime: timestamp,
-      cameraId : this._id
+      cameraId: this._id
     }).toPromise();
 
     console.log(results);
@@ -164,10 +192,10 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
 
           // if product name is not undefined
           if (product) {
-            values[i][j] = { 
+            values[i][j] = {
               linkable: true,
               value: product.name,
-              url : `product/${product.id}`
+              url: `product/${product.id}`
             }
           }
         }
@@ -180,7 +208,7 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
       })
     }
 
-    
+
 
     this.isLoading = false;
   }
@@ -232,4 +260,59 @@ export class CameraDetailsComponent implements OnInit, AfterViewInit {
 
   }
 
+  async updateCameraStatus() {
+    this.isUpdatingStatus = true
+    const updateCameraStatus = this.fns.httpsCallable("updateCameraStatus");
+    const results = await updateCameraStatus({
+      cameraId: this._id,
+      status: !this.cameraStatus
+    }).toPromise();
+
+    var sub = undefined;
+    var didReachEnd = false;
+    var changeCount = 0;
+
+    if (results.status == 200) {
+      sub = this.db.collection('cameras').doc(this._id).snapshotChanges().subscribe(val => {
+        console.log("doc changes");
+        console.log(val.payload.data());
+        changeCount += 1;
+
+        if (changeCount >= 3) {
+          if (val.payload.data()['last_ping'] >= this.lastPingTime) {
+            // success
+            this.cameraStatus = val.payload.data()['camera_enabled'];
+          } else {
+            // camera is offline.
+            this.cameraStatus = false;
+            this.isCameraOffline = true;
+          }
+
+          this.isUpdatingStatus = false
+          // disable sub
+          if (sub != undefined) {
+            sub.unsubscribe();
+          }
+          didReachEnd = true;
+        }
+
+      });
+      // timeout 10 seconds
+      await sleep(10000);
+
+      if (!didReachEnd) {
+        this.cameraStatus = false;
+        this.isCameraOffline = true;
+        this.isUpdatingStatus = false;
+        if (sub != undefined) {
+          sub.unsubscribe();
+        }
+      }
+    }
+
+  }
+}
+
+async function sleep(millis) {
+  return new Promise(resolve => setTimeout(resolve, millis));
 }

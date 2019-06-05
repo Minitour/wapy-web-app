@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { StatData, GraphData, TableData } from '../dashboard/dashboard.component';
@@ -9,12 +9,14 @@ import { AngularFireFunctions } from '@angular/fire/functions';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, OnDestroy {
+  
 
   private _id: string;
   private sub: any;
   productImage: string = ''
-  productName: string = 'Loading...'
+  productName: string | null = null
+  errorMessage: string = ''
 
   isLoading: boolean = true
   stats: Array<StatData> = []
@@ -37,8 +39,11 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.sub.unsubscribe();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   async didSetId() {
@@ -63,6 +68,12 @@ export class ProductDetailsComponent implements OnInit {
     }).toPromise();
 
     console.log(results);
+
+    if (results.code != 200) {
+      this.isLoading = false
+      this.errorMessage = results.message
+      return
+    }
 
     // GET STATS
     const stats = results.data.product.stats;
