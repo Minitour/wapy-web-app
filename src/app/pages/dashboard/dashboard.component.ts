@@ -77,7 +77,11 @@ export class DashboardComponent implements OnInit {
       var alteredTitle = item.title;
       if (productId) {
         const product = this.productLookupTable[productId];
-        alteredTitle = alteredTitle.split(productId).join(`${product.name}`);
+        if (product) {
+          alteredTitle = alteredTitle.split(productId).join(`${product.name}`);
+        } else {
+          alteredTitle = alteredTitle.split(productId).join('Deleted Product');
+        }
       }
 
       this.stats.push({
@@ -132,10 +136,10 @@ export class DashboardComponent implements OnInit {
 
           // if product name is not undefined
           if (product) {
-            values[i][j] = { 
+            values[i][j] = {
               linkable: true,
               value: product.name,
-              url : `product/${product.id}`
+              url: `product/${product.id}`
             }
           }
         }
