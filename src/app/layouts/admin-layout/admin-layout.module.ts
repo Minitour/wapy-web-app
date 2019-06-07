@@ -33,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-details.component';
 
 
@@ -52,6 +53,7 @@ import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-deta
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule
   ],
   declarations: [
     DashboardComponent,

@@ -1,0 +1,14 @@
+<h2>Update Product</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.name" placeholder="Product Name">
+  </mat-form-field>
+  
+  <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()" textLabel="Drag and drop an image">
+  </upload-form>
+</div>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

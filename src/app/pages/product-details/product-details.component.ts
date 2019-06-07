@@ -10,7 +10,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  
+
 
   private _id: string;
   private sub: any;
@@ -137,10 +137,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
           // if product name is not undefined
           if (product) {
-            values[i][j] = { 
+            values[i][j] = {
               linkable: true,
               value: product.name,
-              url : `product/${product.id}`
+              url: `product/${product.id}`
             }
           }
         }

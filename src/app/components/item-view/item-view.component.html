@@ -20,6 +20,6 @@
   <div class="card-body">
     <h2 *ngIf="title" class="card-title">{{title}}</h2>
     <p *ngIf="body" class="card-text">{{body}}</p>
-    <button (click)="didSelectButton()" class="btn btn-primary">{{buttonTitle}}</button>
+    <button mat-raised-button color="accent" (click)="didSelectButton()" class="btn btn-primary" style="float: right;">{{buttonTitle}}</button>
   </div>
 </div>
