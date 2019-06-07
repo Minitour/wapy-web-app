@@ -36,6 +36,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar'
 import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-details.component';
 
+// file upload
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -53,7 +55,8 @@ import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-deta
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FileUploadModule
   ],
   declarations: [
     DashboardComponent,

@@ -14,6 +14,7 @@ import { FileDropModule } from 'ngx-file-drop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { TableViewComponent } from './table-view/table-view.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { TableViewComponent } from './table-view/table-view.component';
     ChartsModule,
     FileDropModule,
     MatProgressSpinnerModule,
-    MatButtonModule
+    MatButtonModule,
+    FileUploadModule
   ],
   declarations: [
     FooterComponent,
