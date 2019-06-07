@@ -8,17 +8,19 @@ import { Upload } from 'src/app/services/upload';
   templateUrl: './edit-product-popup.component.html',
   styleUrls: ['./edit-product-popup.component.scss']
 })
-export class AddProductPopupComponent implements OnInit {
+export class EditProductPopupComponent implements OnInit {
+
+  newImage: string = ''
 
   constructor(
-    public dialogRef: MatDialogRef<AddProductPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Product) { }
+    public dialogRef: MatDialogRef<EditProductPopupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(res): void {
+    this.dialogRef.close({ action: res });
   }
 
   onCreateClick() {
@@ -28,11 +30,10 @@ export class AddProductPopupComponent implements OnInit {
 
   didComplete(upload: Upload) {
     console.log(upload.url);
-    this.data.image = upload.url;
+    this.newImage = upload.url;
   }
 
   didRemoveImage() {
-    this.data.image = null;
+    this.newImage = null;
   }
-
 }

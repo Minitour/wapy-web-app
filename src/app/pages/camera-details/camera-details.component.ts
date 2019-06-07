@@ -100,7 +100,7 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
       } catch {
         this.productLookupTable[prod.id] = {
           id: prod.id,
-          name: "Unknown",
+          name: "Deleted Product",
           image: null,
           createdAt: null
         };

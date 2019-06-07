@@ -107,11 +107,6 @@ export class ProductsComponent implements OnInit {
   }
 }
 
-export interface DialogData {
-  animal: string;
-  name: string;
-}
-
 export type Product = {
   name: string,
   id: string,

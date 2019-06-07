@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StatData, GraphData, TableData } from '../dashboard/dashboard.component';
 import { DatePipe } from '@angular/common';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatDialog } from '@angular/material';
+import { EditProductPopupComponent } from './edit-product-popup/edit-product-popup.component';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -34,7 +36,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  constructor(private db: AngularFirestore, private route: ActivatedRoute, private datePipe: DatePipe, private fns: AngularFireFunctions) { }
+  constructor(private db: AngularFirestore, private route: ActivatedRoute,
+    private datePipe: DatePipe,private router: Router,
+    private fns: AngularFireFunctions, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -154,6 +158,53 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = false;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(EditProductPopupComponent, {
+      width: '300px',
+      data: {
+        image: this.productImage,
+        name: this.productName,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async val => {
+      if (val) {
+        if (val.action != undefined) {
+          if (val.action == 0) {
+            // delete product
+            console.log("delete product")
+            const result = await this.fns.httpsCallable("deleteResource")({
+              from: 'products',
+              id: this._id
+            }).toPromise();
+
+            console.log(result)
+            if (result['status'] == 200) {
+              this.router.navigate(['/products']);
+            } else {
+              // show error
+            }
+          }
+        } else {
+          // update product
+          try {
+            const data = {
+              productId: this._id,
+              name: val.name
+            }
+            if (val.newImage) {
+              data['image'] = val.newImage;
+            }
+            const result = await this.fns.httpsCallable("updateProduct")(data).toPromise();
+            console.log(result);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
+    });
   }
 
 }

@@ -1,14 +1,31 @@
 <h2>Update Product</h2>
 <div mat-dialog-content>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.name" placeholder="Product Name">
+    <input matInput [(ngModel)]="data.name" placeholder="Product Name" [value]="data.name">
   </mat-form-field>
-  
-  <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()" textLabel="Drag and drop an image">
+
+  <h3>Current Image</h3>
+  <img *ngIf="data.image" class="card-img-top" src="{{data.image}}" alt="Card image cap">
+
+  <h3>New Image</h3>
+  <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()"
+    textLabel="Drag and drop an image">
   </upload-form>
 </div>
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <div class="row">
+    <div class="col-xl-12">
+      <button mat-button color="warn" (click)="onNoClick(0)">Delete</button>
+    </div>
+    <div class="col-xl-6">
+      <button mat-button (click)="onNoClick(1)" flex>Cancel</button>
+    </div>
+    <div class="col-xl-6">
+      <button mat-button [mat-dialog-close]="data" cdkFocusInitial flex>Update</button>
+    </div>
+
+
+  </div>
+
+
 </mat-dialog-actions>
