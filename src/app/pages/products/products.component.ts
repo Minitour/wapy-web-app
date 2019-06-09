@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit {
     this.isLoading = true
 
     if (forceReload) {
-      await delay(1000);
+      await delay(1500);
     }
 
     const results = await this.db

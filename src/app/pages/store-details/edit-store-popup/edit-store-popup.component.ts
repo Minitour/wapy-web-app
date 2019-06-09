@@ -4,15 +4,15 @@ import { Product } from '../../products/products.component';
 import { Upload } from 'src/app/services/upload';
 
 @Component({
-  selector: 'app-edit-product-popup',
-  templateUrl: './edit-product-popup.component.html',
-  styleUrls: ['./edit-product-popup.component.scss']
+  selector: 'app-edit-store-popup',
+  templateUrl: './edit-store-popup.component.html',
+  styleUrls: ['./edit-store-popup.component.scss']
 })
-export class EditProductPopupComponent implements OnInit {
+export class EditStorePopupComponent implements OnInit {
 
 
   constructor(
-    public dialogRef: MatDialogRef<EditProductPopupComponent>,
+    public dialogRef: MatDialogRef<EditStorePopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {

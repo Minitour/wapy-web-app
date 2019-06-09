@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { EditStorePopupComponent } from './edit-store-popup/edit-store-popup.component';
+import { delay } from 'q';
 
 @Component({
   selector: 'app-store-details',
@@ -33,7 +36,10 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
   constructor(private db: AngularFirestore,
     private fns: AngularFireFunctions,
     private route: ActivatedRoute,
-    private auth: AngularFireAuth) { }
+    private router: Router,
+    private auth: AngularFireAuth,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -67,6 +73,48 @@ export class StoreDetailsComponent implements OnInit, OnDestroy {
         version: camera.version
       })
     }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(EditStorePopupComponent, {
+      width: '300px',
+      data: {
+        image: this.storeImage,
+        name: this.storeName,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async val => {
+      if (val) {
+        if (val.action == undefined) {
+          // update product
+          try {
+            const data = {
+              storeId: this._id,
+              name: val.name
+            }
+
+            if (val.newImage) {
+              data['image'] = val.newImage;
+            }
+            const result = await this.fns.httpsCallable("updateStore")(data).toPromise();
+            console.log(result);
+
+            this.storeName = data.name;
+
+            if (data['image']) {
+              this.storeImage = data['image'];
+            }
+
+            this.snackBar.open('Product Updated', null, { duration: 1000 })
+
+          } catch (e) {
+            console.log(e);
+            this.snackBar.open('Something went wrong...',null,{ duration: 1000 })
+          }
+        }
+      }
+    });
   }
 }
 

@@ -74,8 +74,10 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     // GET DATA FROM FIREBASE
 
     const document = await this.db.collection('cameras').doc(this._id).ref.get();
+    
     if (!document.exists) { return }
     const data = document.data();
+    console.log(data)
     this.cameraName = data.name;
     this.image = data.image;
     this.heatmap = data.heatmap;
@@ -271,7 +273,7 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     var sub = undefined;
     var didReachEnd = false;
     var changeCount = 0;
-
+    
     if (results.status == 200) {
       sub = this.db.collection('cameras').doc(this._id).snapshotChanges().subscribe(val => {
         console.log("doc changes");

@@ -39,6 +39,7 @@ import { CameraDetailsComponent } from 'src/app/pages/camera-details/camera-deta
 // file upload
 import { FileUploadModule } from 'ng2-file-upload';
 import { EditProductPopupComponent } from 'src/app/pages/product-details/edit-product-popup/edit-product-popup.component';
+import { EditStorePopupComponent } from 'src/app/pages/store-details/edit-store-popup/edit-store-popup.component';
 
 @NgModule({
   imports: [
@@ -71,12 +72,14 @@ import { EditProductPopupComponent } from 'src/app/pages/product-details/edit-pr
     ProductDetailsComponent,
     AddProductPopupComponent,
     EditProductPopupComponent,
+    EditStorePopupComponent,
     FileDropDirective,
     CameraDetailsComponent
   ],
   entryComponents: [
     AddProductPopupComponent,
-    EditProductPopupComponent
+    EditProductPopupComponent,
+    EditStorePopupComponent
   ]
 })
 

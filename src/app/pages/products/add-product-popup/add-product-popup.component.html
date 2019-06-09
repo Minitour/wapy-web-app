@@ -3,6 +3,9 @@
   <mat-form-field>
     <input matInput [(ngModel)]="data.name" placeholder="Product Name">
   </mat-form-field>
+  <mat-form-field>
+      <input matInput [(ngModel)]="data.description" placeholder="Product Description">
+    </mat-form-field>
   <upload-form (onUploadCompleted)="didComplete($event)" (onFileRemoved)="didRemoveImage()" textLabel="Drag and drop an image">
   </upload-form>
 </div>

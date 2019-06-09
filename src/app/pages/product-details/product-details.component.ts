@@ -4,8 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StatData, GraphData, TableData } from '../dashboard/dashboard.component';
 import { DatePipe } from '@angular/common';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { EditProductPopupComponent } from './edit-product-popup/edit-product-popup.component';
+import { delay } from 'q';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -38,7 +39,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private db: AngularFirestore, private route: ActivatedRoute,
     private datePipe: DatePipe,private router: Router,
-    private fns: AngularFireFunctions, public dialog: MatDialog) { }
+    private fns: AngularFireFunctions, public dialog: MatDialog,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -182,9 +184,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
             console.log(result)
             if (result['status'] == 200) {
+              this.snackBar.open('Product Deleted.',null,{ duration: 1000 })
               this.router.navigate(['/products']);
             } else {
               // show error
+              this.snackBar.open('Something went wrong...')
             }
           }
         } else {
@@ -194,13 +198,23 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
               productId: this._id,
               name: val.name
             }
+
             if (val.newImage) {
               data['image'] = val.newImage;
             }
             const result = await this.fns.httpsCallable("updateProduct")(data).toPromise();
             console.log(result);
+            
+            this.productName = data.name;
+
+            if (data['image']) {
+              this.productImage = data['image'];
+            } 
+            this.snackBar.open('Product Updated',null,{ duration: 1000 })
+            
           } catch (e) {
             console.log(e);
+            this.snackBar.open('Something went wrong...',null,{ duration: 1000 })
           }
         }
       }

@@ -112,7 +112,7 @@ export class UserProfileComponent implements OnInit {
 
     await user.updateProfile({ displayName: this.displayName, photoURL: this.profilePictureUrl });
 
-    this._snackBar.open("Profile Updated");
+    this._snackBar.open("Profile Updated",null,{ duration: 1000 });
   }
 
 }
