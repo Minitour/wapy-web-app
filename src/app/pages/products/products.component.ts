@@ -58,6 +58,7 @@ export class ProductsComponent implements OnInit {
       const data = doc.data();
       this.products.push({
         id: doc.id,
+        description: data.description,
         name: data.name,
         image: data.image,
         createdAt: data.created_at.toDate()
@@ -109,6 +110,7 @@ export class ProductsComponent implements OnInit {
 
 export type Product = {
   name: string,
+  description: string,
   id: string,
   image: string | null
   createdAt: Date
