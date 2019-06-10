@@ -33,6 +33,7 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
 
   products: Array<any> = []
   heatmap: Array<any> = []
+  productValueLookup: Map<string, number> = new Map();
 
   isLoading: boolean = true
   stats: Array<StatData> = []
@@ -74,10 +75,12 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     // GET DATA FROM FIREBASE
 
     const document = await this.db.collection('cameras').doc(this._id).ref.get();
-    
+
     if (!document.exists) { return }
     const data = document.data();
+
     console.log(data)
+
     this.cameraName = data.name;
     this.image = data.image;
     this.heatmap = data.heatmap;
@@ -187,6 +190,8 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
       // for each row
       for (let i = 0; i < values.length; i++) {
         // for each column
+        this.productValueLookup[values[i][0]] = values[i][1];
+
         for (let j = 0; j < values[i].length; j++) {
           // get product id
           let productId = values[i][j];
@@ -230,7 +235,14 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     for (let product of this.heatmap) {
 
       let nsize = 150
-      for (let i = 0; i < 30; i++) {
+
+      var numberOfPoints = this.productValueLookup[product.id];
+
+      if (numberOfPoints == undefined) {
+        numberOfPoints = 0
+      }
+
+      for (let i = 0; i < numberOfPoints; i++) {
         let noise1 = Math.random() * nsize - nsize / 2
         let noise2 = Math.random() * nsize - nsize / 2
 
@@ -273,7 +285,7 @@ export class CameraDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     var sub = undefined;
     var didReachEnd = false;
     var changeCount = 0;
-    
+
     if (results.status == 200) {
       sub = this.db.collection('cameras').doc(this._id).snapshotChanges().subscribe(val => {
         console.log("doc changes");
